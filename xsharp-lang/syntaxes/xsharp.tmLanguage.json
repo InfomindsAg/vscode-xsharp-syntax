@@ -1,0 +1,363 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "X#",
+	"patterns": [
+		{
+			"include": "#namespace"
+		},
+		{
+			"include": "#strings"
+		},
+		{
+			"include": "#comment"
+		},
+		{
+			"include": "#literal"
+		},
+		{
+			"include": "#block"
+		},
+		{
+			"include": "#entity"
+		},
+		{
+			"include": "#type"
+		},
+		{
+			"include": "#expression"
+		},
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#as"
+		}
+	],
+	"repository": {
+		"keywords": {
+			"patterns": [
+				{
+					"name": "keyword.control.prg",
+					"match": "\\b(?i)(ASYNC|AWAIT|BEGIN SEQUENCE|RECOVER|BREAK|CANCEL|QUIT|DEFAULT|DO|DO CASE|OTHERWISE|ENDCASE|DO WHILE|EXIT|ENDDO|EXTERNAL|FOR|NEXT|IF|THEN|ELSEIF|ELSE|ENDIF|LOOP|NOP|REPEAT|UNTIL|RETURN|RUN|SWITCH|CASE|WHEN|TEXT|THROW|TRY|CATCH|FINALLY|END TRY|YIELD)\\b"
+				},
+				{
+					"match": "(?i)(FOREACH)(.*)\\b(IMPLIED|VAR|AS)\\b(.*)\\b(IN)",
+					"captures": {
+						"1": {
+							"name": "keyword.control.prg"
+						},
+						"3": {
+							"name": "keyword.other.prg"
+						},
+						"5": {
+							"name": "keyword.control.prg"
+						}
+					}
+				}
+			]
+		},
+		"strings": {
+			"patterns": [
+				{
+					"include": "#string-single"
+				},
+				{
+					"include": "#string-double"
+				}
+			]
+		},
+		"string-single": {
+			"name": "string.quoted.single.prg",
+			"begin": "'",
+			"end": "'",
+			"patterns": [
+				{
+					"name": "constant.character.escape.prg",
+					"match": "\\\\."
+				}
+			]
+		},
+		"string-double": {
+			"name": "string.quoted.double.prg",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.prg",
+					"match": "\\\\."
+				}
+			]
+		},
+		"comment": {
+			"patterns": [
+				{
+					"begin": "/\\*",
+					"end": "\\*/",
+					"name": "comment.block.prg"
+				},
+				{
+					"match": "(//).*$\\n?",
+					"name": "comment.line.prg"
+				}
+			]
+		},
+		"literal": {
+			"patterns": [
+				{
+					"include": "#boolean-literal"
+				},
+				{
+					"include": "#null-literal"
+				},
+				{
+					"include": "#numeric-literal"
+				},
+				{
+					"include": "#symbol-literal"
+				}
+			]
+		},
+		"numeric-literal": {
+			"patterns": [
+				{
+					"include": "#integer-literal"
+				},
+				{
+					"include": "#float-literal"
+				}
+			]
+		},
+		"integer-literal": {
+			"match": "(?i)\\b([0-9]+)(L|U)\\b",
+			"name": "constant.language.int-literal.prg"
+		},
+		"float-literal": {
+			"patterns": [
+				{
+					"match": "(?i)\\b(([0-9]*[.])?[0-9]+)(S|D|M)\\b",
+					"name": "constant.language.float-literal.prg"
+				},
+				{
+					"match": "\\b\\$([0-9]*[.])?[0-9]+\\b",
+					"name": "constant.language.float-literal.prg"
+				}
+			]
+		},
+		"block": {
+			"patterns": [
+				{
+					"match": "(?i)(BEGIN|END)\\s+(\\S+)",
+					"captures": {
+						"1": {
+							"name": "keyword.other.prg"
+						},
+						"2": {
+							"patterns": [
+								{
+									"match": "(?i)\\b(CHECKED|UNCHECKED|FIXED|LOCK|NAMESPACE|SCOPE|UNSAFE|USING|CLASS|ENUM|INTERFACE|PROCEDURE|STRUCTURE|UNION|VOSTRUCT)\\b",
+									"name": "keyword.other.prg"
+								}
+							]
+						}
+					}
+				},
+				{
+					"include": "#using-directive"
+				}
+			]
+		},
+		"using-directive": {
+			"match": "(?i)\\b(USING)(\\s+)(\\S+)\\b",
+			"captures": {
+				"1": {
+					"name": "keyword.other.using.prg"
+				},
+				"3": {
+					"name": "entity.name.type.namespace.prg"
+				}
+			}
+		},
+		"entity": {
+			"patterns": [
+				{
+					"match": "(?i)\\b(\\_DLL|ACCESS|ASSIGN|DECLARE|EVENT|OPERATOR|DEFINE|DELEGATE|DLLEXPORT|EXPORT|LOCAL|GLOBAL|DIM)\\b",
+					"name": "keyword.other.prg"
+				},
+				{
+					"match": "(?i)\\b(CONSTRUCTOR|DESTRUCTOR)\\b",
+					"name": "entity.name.function.prg"
+				},
+				{
+					"include": "#function"
+				},
+				{
+					"include": "#property"
+				},
+				{
+					"include": "#class-enum-interface"
+				},
+				{
+					"include": "#union-vostruct"
+				},
+				{
+					"include": "#storage-modifier"
+				}
+			]
+		},
+		"function": {
+			"patterns": [
+				{
+					"match": "(?i)(FUNC|FUNCTION|METHOD)(\\s+)([_a-zA-Z_0-9]+)",
+					"captures": {
+						"1": {
+							"name": "storage.type.function.prg"
+						},
+						"3": {
+							"name": "entity.name.function.prg"
+						}
+					}
+				},
+				{
+					"match": "(?i)\\b(ENDFUNC|END\\s+FUNCTION)\\b",
+					"name": "storage.type.function.prg"
+				}
+			]
+		},
+		"property": {
+			"patterns": [
+				{
+					"match": "(?i)(PROPERTY)(\\s+)(\\b\\S+\\b)",
+					"captures": {
+						"1": {
+							"name": "keyword.other.prg"
+						},
+						"3": {
+							"name": "entity.name.type.prg"
+						}
+					}
+				},
+				{
+					"match": "(?i)((END)(\\s+)(PROPERTY))",
+					"name": "keyword.other.prg"
+				}
+			]
+		},
+		"comma-seperator": {
+			"patterns": [
+				{
+					"match": "(\\S+)\\s*,\\s*(.*)",
+					"captures": {
+						"1": {
+							"name": "entity.name.type.prg"
+						},
+						"2": {
+							"patterns": [
+								{
+									"include": "#comma-seperator"
+								}
+							]
+						}
+					}
+				},
+				{
+					"match": "\\b\\S+\\b",
+					"name": "entity.name.type.prg"
+				}
+			]
+		},
+		"class-enum-interface": {
+			"patterns": [
+				{
+					"match": "(?i)(CLASS|ENUM|INTERFACE|PROCEDURE|STRUCTURE)(\\s+)(\\b\\S+\\b)",
+					"captures": {
+						"1": {
+							"name": "keyword.other.prg"
+						},
+						"3": {
+							"name": "entity.name.type.prg"
+						}
+					}
+				},
+				{
+					"match": "(?i)\\b(ENDPROC)\\b",
+					"name": "keyword.other.prg"
+				},
+				{
+					"match": "(?i)(INHERIT|IMPLEMENTS)\\s+(.*)",
+					"captures": {
+						"2": {
+							"patterns": [
+								{
+									"include": "#comma-seperator"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		"union-vostruct": {
+			"match": "(?i)\\b(VOSTRUCT|UNION|MEMBER)\\b",
+			"name": "keyword.other.prg"
+		},
+		"storage-modifier": {
+			"match": "\\b(?i)(PUBLIC|PROTECTED|PROTECT|HIDDEN|INTERNAL|SEALED|ABSTRACT|STATIC)\\s+\\b",
+			"name": "storage.modifier.prg"
+		},
+		"namespace": {
+			"match": "(?i)(?<=BEGIN\\s+NAMESPACE\\s+)(\\b\\S+\\b)",
+			"name": "entity.name.type.prg"
+		},
+		"expression": {
+			"patterns": [
+				{
+					"include": "#expr-boolean"
+				}
+			]
+		},
+		"boolean-literal": {
+			"match": "\\b(\\s*)(?i)(FALSE|\\.F\\.|\\.N\\.|TRUE|\\.T\\.|\\.Y\\.)\\b",
+			"name": "constant.language.boolean.prg"
+		},
+		"null-literal": {
+			"match": "\\b(\\s*)(?i)(NULL|NULL_ARRAY|NULL_CODEBLOCK|NULL_DATE|NULL_OBJECT|NULL_PSZ|NULL_PTR|NULL_STRING|NULL_SYMBOL|\\.NULL\\.)\\b",
+			"name": "constant.language.null.prg"
+		},
+		"symbol-literal": {
+			"match": "#[_a-zA-Z_0-9]+",
+			"name": "constant.language.symbol.prg"
+		},
+		"type": {
+			"name": "keyword.type.prg",
+			"match": "(?i)\\b(VAR|BYTE|CHAR|DWORD|DECIMAL|DYNAMIC|INT|INT64|LOGIC|LONGINT|OBJECT|PTR|REAL4|REAL8|SBYTE|SHORT|STRING|UINT64|VOID|WORD)\\b"
+		},
+		"expr-boolean": {
+			"match": "(?i)(\\.AND\\.|\\.OR\\.|\\.NOT\\.|\\!)",
+			"name": "keyword.operator.logical.prg"
+		},
+		"as": {
+			"patterns": [
+				{
+					"match": "(?i)\\s+(AS|REF|OUT|IN)\\s+([_a-zA-Z_0-9]+)",
+					"captures": {
+						"1": {
+							"name": "keyword.other.prg"
+						},
+						"2": {
+							"patterns": [
+								{
+									"include": "#type"
+								},
+								{
+									"match": ".*",
+									"name": "entity.name.type.prg"
+								}
+							]
+						}
+					}
+				}
+			]
+		}
+	},
+	"scopeName": "source.prg"
+}

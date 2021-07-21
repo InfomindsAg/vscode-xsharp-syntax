@@ -1,0 +1,25 @@
+{
+    "name": "xsharp-lang",
+    "displayName": "X# Lang",
+    "description": "Syntax highlighting for X# lang",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.58.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "xsharp",
+            "aliases": ["X#", "xsharp"],
+            "extensions": [".prg"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "xsharp",
+            "scopeName": "source.prg",
+            "path": "./syntaxes/xsharp.tmLanguage.json"
+        }]
+    }
+}
