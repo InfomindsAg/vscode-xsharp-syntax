@@ -38,7 +38,7 @@
 			"patterns": [
 				{
 					"name": "keyword.control.prg",
-					"match": "\\b(?i)(ASYNC|AWAIT|BEGIN SEQUENCE|RECOVER|BREAK|CANCEL|QUIT|DEFAULT|DO|DO CASE|OTHERWISE|ENDCASE|DO WHILE|EXIT|ENDDO|EXTERNAL|FOR|NEXT|IF|THEN|ELSEIF|ELSE|ENDIF|LOOP|NOP|REPEAT|UNTIL|RETURN|RUN|SWITCH|CASE|WHEN|TEXT|THROW|TRY|CATCH|FINALLY|END TRY|YIELD)\\b"
+					"match": "\\b(?i)(ASYNC|AWAIT|BEGIN SEQUENCE|RECOVER|BREAK|CANCEL|QUIT|DEFAULT|DO|DO CASE|OTHERWISE|ENDCASE|DO WHILE|EXIT|ENDDO|EXTERNAL|FOR|NEXT|LOOP|NOP|REPEAT|UNTIL|RETURN|RUN|SWITCH|CASE|WHEN|TEXT|THROW|TRY|CATCH|FINALLY|END TRY|YIELD)\\b"
 				},
 				{
 					"match": "(?i)(FOREACH)(.*)\\b(IMPLIED|VAR|AS)\\b(.*)\\b(IN)",
@@ -53,6 +53,38 @@
 							"name": "keyword.control.prg"
 						}
 					}
+				},
+				{
+					"include": "#if-statement"
+				}
+			]
+		},
+		"if-statement": {
+			"name": "if.group",
+			"begin": "(?i)\\b(IF)\\b",
+			"end": "(?i)\\b(END(IF)?)\\b",
+			"beginCaptures": {
+				"0": {
+					"name": "keyword.control.conditional.if.prg"
+				}
+			},
+			"endCaptures": {
+				"0": {
+					"name": "keyword.control.conditional.endif.prg"
+				}
+			},
+			"patterns": [
+				{
+					"match": "(?i)(THEN)",
+					"name": "keyword.control.conditional.then.prg"
+				},
+				{
+					"match": "(?i)(ELSEIF)",
+					"name": "keyword.control.conditional.elseif.prg"
+				},
+				{
+					"match": "(?i)(ELSE)",
+					"name": "keyword.control.conditional.else.prg"
 				}
 			]
 		},
@@ -180,7 +212,7 @@
 		"entity": {
 			"patterns": [
 				{
-					"match": "(?i)\\b(\\_DLL|ACCESS|ASSIGN|DECLARE|EVENT|OPERATOR|DEFINE|DELEGATE|DLLEXPORT|EXPORT|LOCAL|GLOBAL|DIM)\\b",
+					"match": "(?i)\\b(\\_DLL|ACCESS|ASSIGN|DECLARE|EVENT|OPERATOR|DEFINE|DELEGATE|DLLEXPORT|EXPORT|LOCAL|GLOBAL)\\b",
 					"name": "keyword.other.prg"
 				},
 				{
@@ -297,11 +329,11 @@
 			]
 		},
 		"union-vostruct": {
-			"match": "(?i)\\b(VOSTRUCT|UNION|MEMBER)\\b",
+			"match": "(?i)\\b(MEMBER|MEMBER\\s+DIM)\\b",
 			"name": "keyword.other.prg"
 		},
 		"storage-modifier": {
-			"match": "\\b(?i)(PUBLIC|PROTECTED|PROTECT|HIDDEN|INTERNAL|SEALED|ABSTRACT|STATIC)\\s+\\b",
+			"match": "\\b(?i)(PUBLIC|PROTECTED|PROTECT|HIDDEN|INTERNAL|SEALED|ABSTRACT|STATIC|PARTIAL)\\s+\\b",
 			"name": "storage.modifier.prg"
 		},
 		"namespace": {
@@ -329,7 +361,7 @@
 		},
 		"type": {
 			"name": "keyword.type.prg",
-			"match": "(?i)\\b(VAR|BYTE|CHAR|DWORD|DECIMAL|DYNAMIC|INT|INT64|LOGIC|LONGINT|OBJECT|PTR|REAL4|REAL8|SBYTE|SHORT|STRING|UINT64|VOID|WORD)\\b"
+			"match": "(?i)\\b(VAR|BYTE|CHAR|DWORD|DECIMAL|DYNAMIC|INT|INT64|LOGIC|LONGINT|OBJECT|PTR|REAL4|REAL8|SBYTE|SHORT|STRING|UINT64|VOID|WORD|ARRAY|BINARY|CODEBLOCK|CURRENCY|DATE|FLOAT|PSZ|SYMBOL|USUAL)\\b"
 		},
 		"expr-boolean": {
 			"match": "(?i)(\\.AND\\.|\\.OR\\.|\\.NOT\\.|\\!)",
