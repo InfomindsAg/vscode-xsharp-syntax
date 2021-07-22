@@ -79,12 +79,12 @@
 					"name": "keyword.control.conditional.then.prg"
 				},
 				{
-					"match": "(?i)(ELSEIF)",
-					"name": "keyword.control.conditional.elseif.prg"
-				},
-				{
 					"match": "(?i)(ELSE)",
 					"name": "keyword.control.conditional.else.prg"
+				},
+				{
+					"match": "(?i)(IF)",
+					"include": "#if-statement"
 				}
 			]
 		},
