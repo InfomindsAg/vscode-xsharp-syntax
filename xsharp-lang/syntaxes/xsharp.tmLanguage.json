@@ -44,7 +44,7 @@
 			"patterns": [
 				{
 					"name": "keyword.control.prg",
-					"match": "\\b(?i)(ASYNC|AWAIT|BEGIN SEQUENCE|RECOVER|BREAK|CANCEL|QUIT|DEFAULT|DO CASE|OTHERWISE|ENDCASE|DO WHILE|DO|EXIT|ENDDO|EXTERNAL|FOR|NEXT|LOOP|NOP|REPEAT|UNTIL|RETURN|RUN|SWITCH|CASE|WHEN|TEXT|THROW|TRY|CATCH|FINALLY|END TRY|YIELD)\\b"
+					"match": "\\b(?i)(ASYNC|AWAIT|BEGIN SEQUENCE|RECOVER|BREAK|CANCEL|QUIT|DEFAULT|DO CASE|OTHERWISE|ENDCASE|DO WHILE|DO|EXIT|ENDDO|EXTERNAL|FOR|NEXT|LOOP|NOP|REPEAT|UNTIL|RETURN|RUN|SWITCH|END SWITCH|CASE|WHEN|TEXT|THROW|TRY|CATCH|FINALLY|END TRY|YIELD)\\b"
 				},
 				{
 					"match": "(?i)(FOREACH)(.*)\\b(IMPLIED|VAR|AS)\\b(.*)\\b(IN)",
@@ -68,7 +68,7 @@
 		"if-statement": {
 			"name": "if.group",
 			"begin": "(?i)\\b(IF)\\b",
-			"end": "(?i)\\b(END(\\s*IF)?)\\b",
+			"end": "(?i)\\b(END(\\s*IF)?)$",
 			"beginCaptures": {
 				"0": {
 					"name": "keyword.control.conditional.if.prg"
@@ -191,20 +191,8 @@
 		"block": {
 			"patterns": [
 				{
-					"match": "(?i)(BEGIN|END)\\s+(\\S+)",
-					"captures": {
-						"1": {
-							"name": "keyword.other.prg"
-						},
-						"2": {
-							"patterns": [
-								{
-									"match": "(?i)\\b(CHECKED|UNCHECKED|FIXED|LOCK|NAMESPACE|SCOPE|UNSAFE|USING|CLASS|ENUM|INTERFACE|PROCEDURE|STRUCTURE|UNION|VOSTRUCT)\\b",
-									"name": "keyword.other.prg"
-								}
-							]
-						}
-					}
+					"match": "(?i)((BEGIN|END)\\s+)?\\b(CHECKED|UNCHECKED|FIXED|LOCK|NAMESPACE|SCOPE|UNSAFE|USING|CLASS|ENUM|INTERFACE|PROCEDURE|STRUCTURE|UNION|VOSTRUCT)\\b",
+					"name": "keyword.other.prg"
 				},
 				{
 					"include": "#using-directive"
@@ -326,7 +314,7 @@
 					}
 				},
 				{
-					"match": "\\b(\\S+)?\\b",
+					"match": "\\b(\\S+)\\b",
 					"name": "entity.name.type.prg"
 				}
 			]
@@ -334,15 +322,8 @@
 		"class-enum-interface": {
 			"patterns": [
 				{
-					"match": "(?i)(CLASS|ENUM|INTERFACE|PROCEDURE|STRUCTURE)(\\s+)(\\b\\S+\\b)",
-					"captures": {
-						"1": {
-							"name": "keyword.other.prg"
-						},
-						"3": {
-							"name": "entity.name.type.prg"
-						}
-					}
+					"match": "(?i)(?<=(CLASS|ENUM|INTERFACE|PROCEDURE|STRUCTURE))\\s+\\b\\S+\\b",
+					"name": "entity.name.type.prg"
 				},
 				{
 					"match": "(?i)\\b(ENDPROC)\\b",
@@ -371,7 +352,7 @@
 			]
 		},
 		"union-vostruct": {
-			"match": "(?i)\\b(MEMBER|MEMBER\\s+DIM)\\b",
+			"match": "(?i)\\b(MEMBER(\\s+DIM)?)\\b",
 			"name": "keyword.other.prg"
 		},
 		"storage-modifier": {
@@ -433,7 +414,7 @@
 			]
 		},
 		"variable": {
-			"match": "(?i)(SELF)",
+			"match": "(?i)\\b(SELF|SUPER)\\b",
 			"name": "variable.language.prg"
 		}
 	},
