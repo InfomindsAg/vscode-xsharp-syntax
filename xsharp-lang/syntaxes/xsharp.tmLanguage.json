@@ -191,7 +191,11 @@
 		"block": {
 			"patterns": [
 				{
-					"match": "(?i)((BEGIN|END)\\s+)?\\b(CHECKED|UNCHECKED|FIXED|LOCK|NAMESPACE|SCOPE|UNSAFE|USING|CLASS|ENUM|INTERFACE|PROCEDURE|STRUCTURE|UNION|VOSTRUCT)\\b",
+					"match": "(?i)(BEGIN|END)\\s+\\b(USING)\\b",
+					"name": "keyword.other.prg"
+				},
+				{
+					"match": "(?i)((BEGIN|END)\\s+)?\\b(CHECKED|UNCHECKED|FIXED|LOCK|NAMESPACE|SCOPE|UNSAFE|CLASS|ENUM|INTERFACE|PROCEDURE|STRUCTURE|UNION|VOSTRUCT)\\b",
 					"name": "keyword.other.prg"
 				},
 				{
