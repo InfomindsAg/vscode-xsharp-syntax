@@ -1,6 +1,9 @@
 {
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
 	"name": "X#",
+	"fileTypes": [
+		"prg"
+	],
 	"patterns": [
 		{
 			"include": "#namespace"
@@ -15,9 +18,6 @@
 			"include": "#literal"
 		},
 		{
-			"include": "#block"
-		},
-		{
 			"include": "#entity"
 		},
 		{
@@ -27,10 +27,16 @@
 			"include": "#expression"
 		},
 		{
+			"include": "#variable"
+		},
+		{
 			"include": "#keywords"
 		},
 		{
 			"include": "#as"
+		},
+		{
+			"include": "#block"
 		}
 	],
 	"repository": {
@@ -38,7 +44,7 @@
 			"patterns": [
 				{
 					"name": "keyword.control.prg",
-					"match": "\\b(?i)(ASYNC|AWAIT|BEGIN SEQUENCE|RECOVER|BREAK|CANCEL|QUIT|DEFAULT|DO|DO CASE|OTHERWISE|ENDCASE|DO WHILE|EXIT|ENDDO|EXTERNAL|FOR|NEXT|LOOP|NOP|REPEAT|UNTIL|RETURN|RUN|SWITCH|CASE|WHEN|TEXT|THROW|TRY|CATCH|FINALLY|END TRY|YIELD)\\b"
+					"match": "\\b(?i)(ASYNC|AWAIT|BEGIN SEQUENCE|RECOVER|BREAK|CANCEL|QUIT|DEFAULT|DO CASE|OTHERWISE|ENDCASE|DO WHILE|DO|EXIT|ENDDO|EXTERNAL|FOR|NEXT|LOOP|NOP|REPEAT|UNTIL|RETURN|RUN|SWITCH|CASE|WHEN|TEXT|THROW|TRY|CATCH|FINALLY|END TRY|YIELD)\\b"
 				},
 				{
 					"match": "(?i)(FOREACH)(.*)\\b(IMPLIED|VAR|AS)\\b(.*)\\b(IN)",
@@ -62,7 +68,7 @@
 		"if-statement": {
 			"name": "if.group",
 			"begin": "(?i)\\b(IF)\\b",
-			"end": "(?i)\\b(END(IF)?)\\b",
+			"end": "(?i)\\b(END(\\s*IF)?)\\b",
 			"beginCaptures": {
 				"0": {
 					"name": "keyword.control.conditional.if.prg"
@@ -79,12 +85,19 @@
 					"name": "keyword.control.conditional.then.prg"
 				},
 				{
+					"match": "(?i)(ELSEIF)",
+					"name": "keyword.control.conditional.elseif.prg"
+				},
+				{
 					"match": "(?i)(ELSE)",
 					"name": "keyword.control.conditional.else.prg"
 				},
 				{
 					"match": "(?i)(IF)",
 					"include": "#if-statement"
+				},
+				{
+					"include": "$self"
 				}
 			]
 		},
@@ -129,7 +142,7 @@
 				},
 				{
 					"match": "(//).*$\\n?",
-					"name": "comment.line.prg"
+					"name": "comment.line.double-slash.prg"
 				}
 			]
 		},
@@ -240,6 +253,7 @@
 			"patterns": [
 				{
 					"match": "(?i)(FUNC|FUNCTION|METHOD)(\\s+)([_a-zA-Z_0-9]+)",
+					"name": "meta.function.prg",
 					"captures": {
 						"1": {
 							"name": "storage.type.function.prg"
@@ -256,21 +270,41 @@
 			]
 		},
 		"property": {
+			"begin": "(?i)(PROPERTY)\\s+(\\b\\S+\\b)",
+			"end": "(?i)(END\\s+PROPERTY)",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.other.property.prg"
+				},
+				"2": {
+					"name": "entity.name.type.prg"
+				}
+			},
+			"endCaptures": {
+				"1": {
+					"name": "keyword.other.end-property.prg"
+				}
+			},
 			"patterns": [
 				{
-					"match": "(?i)(PROPERTY)(\\s+)(\\b\\S+\\b)",
-					"captures": {
-						"1": {
-							"name": "keyword.other.prg"
-						},
-						"3": {
-							"name": "entity.name.type.prg"
-						}
-					}
+					"include": "#property-getter-setter"
 				},
 				{
-					"match": "(?i)((END)(\\s+)(PROPERTY))",
-					"name": "keyword.other.prg"
+					"include": "$self"
+				}
+			]
+		},
+		"property-getter-setter": {
+			"begin": "(?i)\\b(GET|SET|INIT)\\b",
+			"end": "(?i)(END\\s+(GET|SET|INIT))",
+			"captures": {
+				"1": {
+					"name": "keyword.other.property.prg"
+				}
+			},
+			"patterns": [
+				{
+					"include": "$self"
 				}
 			]
 		},
@@ -292,7 +326,7 @@
 					}
 				},
 				{
-					"match": "\\b\\S+\\b",
+					"match": "\\b(\\S+)?\\b",
 					"name": "entity.name.type.prg"
 				}
 			]
@@ -315,7 +349,15 @@
 					"name": "keyword.other.prg"
 				},
 				{
-					"match": "(?i)(INHERIT|IMPLEMENTS)\\s+(.*)",
+					"match": "(?i)(INHERIT)\\s+(\\S+)",
+					"captures": {
+						"2": {
+							"name": "entity.name.type.prg"
+						}
+					}
+				},
+				{
+					"match": "(?i)(IMPLEMENTS)\\s+(.*)",
 					"captures": {
 						"2": {
 							"patterns": [
@@ -389,6 +431,10 @@
 					}
 				}
 			]
+		},
+		"variable": {
+			"match": "(?i)(SELF)",
+			"name": "variable.language.prg"
 		}
 	},
 	"scopeName": "source.prg"
