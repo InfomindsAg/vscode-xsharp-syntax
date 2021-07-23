@@ -14,11 +14,18 @@
 	],
 	"main": "./out/extension.js",
 	"contributes": {
-		"languages": [{
-            "id": "xsharp",
-            "aliases": ["X#", "xsharp"],
-            "extensions": ["prg"]
-        }]
+		"languages": [
+			{
+				"id": "xsharp",
+				"aliases": [
+					"X#",
+					"xsharp"
+				],
+				"extensions": [
+					"prg"
+				]
+			}
+		]
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",

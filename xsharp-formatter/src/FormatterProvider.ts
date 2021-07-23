@@ -1,56 +1,72 @@
 import * as vsc from 'vscode';
 
-const KEYWORDS = "CLASS";
-const BLOCK = `(END (${KEYWORDS})?)|(${KEYWORDS})`;
-const REGEX = new RegExp(`((.|\n)*?)((${BLOCK}).*)((.|\n)*)`, "i");
+
+const BLOCK = new Map<string, string>([
+    ["(?<!END )CLASS", "END CLASS"],
+    ["(?<!END)IF|ELSE|ELSEIF", "ELSEIF|ENDIF|END"]
+]);
+const KEYS = [...BLOCK.keys()];
+const VALS = [...BLOCK.values()];
+
 const TAB_INDENT = "\t";
 
 export class XsharpFormatter implements vsc.DocumentFormattingEditProvider {
 
+    // TODO exclude comments for formatting
+
+    private containsKeyword(line: string, keywords: string[]): boolean {
+        return keywords.some(keyword => line.toUpperCase().match(`(${keyword})`));
+    }
+
     private format(text: string): string {
-        const matches = text.match(REGEX);
+        let numIndents = 0;
+        let lines = text.split("\n");
+        let result;
 
-        if (matches === null) {
-            return text;
+        for (let i = 0; i < lines.length; i++) {
+            let line = lines[i];
+
+            if (this.containsKeyword(line, VALS)) {
+                numIndents--;
+            }
+
+            line = this.addTabIndent(line, numIndents);
+
+            if (this.containsKeyword(line, KEYS)) {
+                numIndents++;
+            }
+
+            lines[i] = line;
         }
-        const keyword = matches[4].toLowerCase();
-        let strKeywordLine = matches[3];
-        let strBeforeKeyword = matches[1];
-        let strAfterKeyword = matches[8];
 
-        if (keyword.includes("end")) {
-            strBeforeKeyword = this.addTabIndent(strBeforeKeyword);
+        result = lines.join("\n");
+        return result;
+    }
+
+    private addTabIndent(line: string, numIndents: number): string {
+        if (numIndents <= 0) {
+            return line;
         }
-        strAfterKeyword = this.format(strAfterKeyword);
-
-
-        let result = strBeforeKeyword.concat(strKeywordLine, strAfterKeyword);
+        const indents = TAB_INDENT.repeat(numIndents);
+        const result = indents.concat(line);
 
         return result;
     }
 
-    private addTabIndent(text: string): string {
+    private trimLines(text: string): string {
         let lines = text.split("\n");
+        let result;
 
-        lines = lines.map(line => {
-            if (line === "") {
-                return line;
-            } else {
-                return TAB_INDENT.concat(line);
-            }
-        }
-        );
-        const result = lines.join("\n");
+        lines = lines.map(line => line.trim());
+        result = lines.join("\n");
 
         return result;
     }
 
     private formatDocument(document: vsc.TextDocument): string {
         let text = document.getText();
-        let lines = text.split("\n");
 
-        lines = lines.map(line => line.trim());
-        text = lines.join("\n");
+        text = this.trimLines(text);
         text = this.format(text);
 
         return text;
