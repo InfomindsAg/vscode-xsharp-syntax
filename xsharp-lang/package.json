@@ -2,7 +2,13 @@
     "name": "xsharp-lang",
     "displayName": "X# Lang",
     "description": "Syntax highlighting for X# lang",
-    "version": "0.0.1",
+    "version": "1.0.0",
+    "publisher": "",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/VolkmarR/vscode-xsharp-syntax.git"
+    },
     "engines": {
         "vscode": "^1.58.0"
     },
