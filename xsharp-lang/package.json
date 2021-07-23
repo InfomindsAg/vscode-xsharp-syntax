@@ -13,7 +13,7 @@
         "languages": [{
             "id": "xsharp",
             "aliases": ["X#", "xsharp"],
-            "extensions": ["prg"],
+            "extensions": [".prg"],
             "configuration": "./language-configuration.json"
         }],
         "grammars": [{
