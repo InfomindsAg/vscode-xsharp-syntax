@@ -6,7 +6,7 @@ Provides syntax highlighting for the X# programming language.
 
 Colors keywords, methods and entities in different colors.
 
-![Example highlighting](/images/sample.png)
+![Example highlighting](images/sample.png)
 
 ## Requirements
 No additional dependencies needed for this extension.
