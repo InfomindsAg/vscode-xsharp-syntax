@@ -1,31 +1,47 @@
 {
-    "name": "xsharp-lang",
-    "displayName": "X# Lang",
-    "description": "Syntax highlighting for X# lang",
-    "version": "1.0.0",
-    "publisher": "InfomindsAG",
-    "license": "MIT",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/VolkmarR/vscode-xsharp-syntax.git"
-    },
-    "engines": {
-        "vscode": "^1.58.0"
-    },
-    "categories": [
-        "Programming Languages"
+  "name": "xsharp-lang",
+  "displayName": "X# Lang",
+  "description": "Syntax highlighting for X# lang",
+  "version": "1.0.1",
+  "publisher": "InfomindsAG",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/InfomindsAg/vscode-xsharp-syntax.git"
+  },
+  "engines": {
+    "vscode": "^1.58.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "xsharp",
+        "aliases": [
+          "X#",
+          "xsharp"
+        ],
+        "extensions": [
+          ".prg"
+        ],
+        "configuration": "./language-configuration.json"
+      }
     ],
-    "contributes": {
-        "languages": [{
-            "id": "xsharp",
-            "aliases": ["X#", "xsharp"],
-            "extensions": [".prg"],
-            "configuration": "./language-configuration.json"
-        }],
-        "grammars": [{
-            "language": "xsharp",
-            "scopeName": "source.prg",
-            "path": "./syntaxes/xsharp.tmLanguage.json"
-        }]
-    }
+    "grammars": [
+      {
+        "language": "xsharp",
+        "scopeName": "source.prg",
+        "path": "./syntaxes/xsharp.tmLanguage.json"
+      }
+    ]
+  },
+  "bugs": {
+    "url": "https://github.com/InfomindsAg/vscode-xsharp-syntax/issues"
+  },
+  "homepage": "https://github.com/InfomindsAg/vscode-xsharp-syntax#readme",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
 }

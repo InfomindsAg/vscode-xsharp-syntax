@@ -6,7 +6,7 @@ Provides syntax highlighting for the X# programming language.
 
 Colors keywords, methods and entities in different colors.
 
-![Example highlighting](images/sample.png)
+![Example highlighting](https://raw.githubusercontent.com/InfomindsAg/vscode-xsharp-syntax/main/xsharp-lang/images/sample.png)
 
 ## Requirements
 No additional dependencies needed for this extension.
@@ -16,3 +16,7 @@ No additional dependencies needed for this extension.
 ### 1.0.0
 
 - Initial release
+
+### 1.0.1
+
+- Fix package.json, readme

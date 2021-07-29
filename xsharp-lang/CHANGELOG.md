@@ -5,3 +5,7 @@ All notable changes to the "xsharp-lang" extension will be documented in this fi
 ## [1.0.0]
 
 - Initial release
+
+## [1.0.1]
+
+- Fix package.json, readme
