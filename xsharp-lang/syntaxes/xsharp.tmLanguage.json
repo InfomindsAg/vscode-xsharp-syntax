@@ -217,7 +217,7 @@
 		"entity": {
 			"patterns": [
 				{
-					"match": "(?i)\\b(\\_DLL|ACCESS|ASSIGN|DECLARE|EVENT|OPERATOR|DEFINE|DELEGATE|DLLEXPORT|EXPORT|LOCAL|GLOBAL)\\b",
+					"match": "(?i)\\b(\\_DLL|ACCESS|ASSIGN|DECLARE|EVENT|OPERATOR|DEFINE|DELEGATE|DLLEXPORT|EXPORT|LOCAL|GLOBAL|FIELD|MEMVAR)\\b",
 					"name": "keyword.other.prg"
 				},
 				{
@@ -397,7 +397,7 @@
 		"as": {
 			"patterns": [
 				{
-					"match": "(?i)\\s+(AS|REF|OUT|IN)\\s+([_a-zA-Z_0-9]+)",
+					"match": "(?i)\\s+(AS|REF|OUT|IN|IS)\\s+([_a-zA-Z_0-9]+)",
 					"captures": {
 						"1": {
 							"name": "keyword.other.prg"
