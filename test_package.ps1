@@ -1,1 +1,0 @@
-﻿xcopy /s /y .\xsharp-lang C:\Users\PatrickKr\.vscode\extensions\xsharp-lang\
