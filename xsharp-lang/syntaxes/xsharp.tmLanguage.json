@@ -360,7 +360,7 @@
 			"name": "keyword.other.prg"
 		},
 		"storage-modifier": {
-			"match": "\\b(?i)(PUBLIC|PROTECTED|PROTECT|HIDDEN|INTERNAL|SEALED|ABSTRACT|STATIC|PARTIAL)\\s+\\b",
+			"match": "\\b(?i)(PUBLIC|PROTECTED|PROTECT|HIDDEN|INTERNAL|SEALED|ABSTRACT|STATIC|PARTIAL|OVERRIDE)\\s+\\b",
 			"name": "storage.modifier.prg"
 		},
 		"namespace": {
