@@ -121,24 +121,12 @@
 		"string-single": {
 			"name": "string.quoted.single.prg",
 			"begin": "'",
-			"end": "'",
-			"patterns": [
-				{
-					"name": "constant.character.escape.prg",
-					"match": "\\\\."
-				}
-			]
+			"end": "'"
 		},
 		"string-double": {
 			"name": "string.quoted.double.prg",
 			"begin": "\"",
-			"end": "\"",
-			"patterns": [
-				{
-					"name": "constant.character.escape.prg",
-					"match": "\\\\."
-				}
-			]
+			"end": "\""
 		},
 		"comment": {
 			"patterns": [
