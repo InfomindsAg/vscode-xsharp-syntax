@@ -75,7 +75,7 @@
 		"if-statement": {
 			"name": "if.group",
 			"begin": "(?i)\\b(IF)\\b",
-			"end": "(?i)\\b(END(\\s*IF)?)$",
+			"end": "(?i)\\b(END(\\s*IF)?)",
 			"beginCaptures": {
 				"0": {
 					"name": "keyword.control.conditional.if.prg"

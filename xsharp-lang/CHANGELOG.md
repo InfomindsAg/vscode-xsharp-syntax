@@ -9,3 +9,8 @@ All notable changes to the "xsharp-lang" extension will be documented in this fi
 ## [1.0.1]
 
 - Fix package.json, readme
+
+## [1.0.2]
+
+- Remove backslash as escape character
+- Use default highlighting of unhandled keywords
