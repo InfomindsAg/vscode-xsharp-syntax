@@ -20,3 +20,8 @@ No additional dependencies needed for this extension.
 ### 1.0.1
 
 - Fix package.json, readme
+
+### 1.0.2
+
+- Removed backslash as escape character
+- Added highlighting for keywords like: strict, clipper, pascal, callback and more.

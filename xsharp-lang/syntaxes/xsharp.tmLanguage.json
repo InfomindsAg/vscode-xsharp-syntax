@@ -30,21 +30,32 @@
 			"include": "#variable"
 		},
 		{
-			"include": "#keywords"
+			"include": "#control-keywords"
 		},
 		{
 			"include": "#as"
 		},
 		{
 			"include": "#block"
+		},
+		{
+			"include": "#keywords"
 		}
 	],
 	"repository": {
 		"keywords": {
+			"match": "\\b(?i)(ABSTRACT|ACCESS|ADD|ALIGN|ANSI|AS|ASCENDING|ASPEN|ASSEMBLY|ASSIGN|ASYNC|AUTO|AWAIT|BEGIN|BREAK|BY|CALLBACK|CASE|CATCH|CCALL|CCALLNATIVE|CHECKED|CLIPPER|CONST|CONSTRUCTOR|DECLARE|DEFAULT|DEFINE|DESCENDING|DESTRUCTOR|DIM|DLLEXPORT|DO|DOWNTO|ELSE|ELSEIF|END|ENDCASE|ENDDO|EN|ENDIF|EQUALS|EVENT|EXIT|EXPLICIT|EXPORT|EXTERN|FASTCALL|FIELD|FINALLY|FIXED|FOR|FOREACH|FROM|FUNC|FUNCTION|GET|GLOBAL|GROUP|HIDDEN|IF|IIF|IMPLEMENTS|IMPLICIT|IMPLIED|IN|INHERIT|INITONLY|INSTANCE|INTO|INTERNAL|IS|JOIN|LET|LOCAL|LOCK|LOOP|MEMBER|METHOD|MODULE|NAMEOF|NAMESPACE|NEW|NEXT|NIL|NOP|OFF|ON|OPERATOR|OPTIONS|ORDERBY|OTHERWISE|OVERRIDE|OUT|PARAMETERS|PARAMS|PARTIAL|PASCAL|PCALL|PCALLNATIVE|PCOUNT|POP|PRIVATE|PROC|PROCEDURE|PROPERTY|PROTECTED|PROTECT|PUBLIC|PUSH|RECOVER|REF|REMOVE|REPEAT|RETURN|SCOPE|SEALED|SELECT|SELF|SEQUENCE|SET|SHORTINT|SIZEOF|STATIC|STEP|STRICT|STRUCT|SUPER|SWITCH|THISCALL|TO|THROW|TRY|TYPEOF|UNCHECKED|UNICODE|UNSAFE|UNTIL|UPTO|USING|VALUE|VIRTUAL|VOLATILE|WARNINGS|_WINCALL|WHEN|WHERE|WHILE|YIELD|__ARGLIST|_AND|_CAST|_CODEBLOCK|_DLL|_FIELD|_GETFPARAM|_GETMPARAM|_INIT1|_INIT2|_INIT3|_NOT|_OR|_SIZEOF|_TYPEOF|_XOR|\\.AND\\.|\\.NOT\\.|\\.OR\\.|\\.XOR\\.|\\.\\.\\.|#command|#define|#else|#endif|#endregion|#ifdef|#ifndef|#include|#line|#pragma|#region|#translate|#undef|#using|#warning|#xcommand|#xtranslate|MEMVAR|VAR|CLASS|DELEGATE|ENUM|INTERFACE|STRUCTURE|UNION|VOSTRUCT)\\b",
+			"name": "keyword.other.prg"
+		},
+		"control-keywords": {
 			"patterns": [
 				{
+					"match": "(?i)\\b((BEGIN|END)\\s*)?(IF|SEQUENCE|CASE|WHILE|DO|FOR|LOOP|SWITCH|TRY|CATCH)\\b",
+					"name": "keyword.control.prg"
+				},
+				{
 					"name": "keyword.control.prg",
-					"match": "\\b(?i)(ASYNC|AWAIT|BEGIN SEQUENCE|RECOVER|BREAK|CANCEL|QUIT|DEFAULT|DO CASE|OTHERWISE|ENDCASE|DO WHILE|DO|EXIT|ENDDO|EXTERNAL|FOR|NEXT|LOOP|NOP|REPEAT|UNTIL|RETURN|RUN|SWITCH|END SWITCH|CASE|WHEN|TEXT|THROW|TRY|CATCH|FINALLY|END TRY|YIELD)\\b"
+					"match": "\\b(?i)(THEN|ELSEIF|ELSE|ASYNC|AWAIT|RECOVER|BREAK|CANCEL|QUIT|DEFAULT|OTHERWISE|EXIT|EXTERNAL|NEXT|NOP|REPEAT|UNTIL|RETURN|RUN|WHEN|TEXT|THROW|FINALLY|YIELD)\\b"
 				},
 				{
 					"match": "(?i)(FOREACH)(.*)\\b(IMPLIED|VAR|AS)\\b(.*)\\b(IN)",
@@ -59,45 +70,6 @@
 							"name": "keyword.control.prg"
 						}
 					}
-				},
-				{
-					"include": "#if-statement"
-				}
-			]
-		},
-		"if-statement": {
-			"name": "if.group",
-			"begin": "(?i)\\b(IF)\\b",
-			"end": "(?i)\\b(END(\\s*IF)?)$",
-			"beginCaptures": {
-				"0": {
-					"name": "keyword.control.conditional.if.prg"
-				}
-			},
-			"endCaptures": {
-				"0": {
-					"name": "keyword.control.conditional.endif.prg"
-				}
-			},
-			"patterns": [
-				{
-					"match": "(?i)(THEN)",
-					"name": "keyword.control.conditional.then.prg"
-				},
-				{
-					"match": "(?i)(ELSEIF)",
-					"name": "keyword.control.conditional.elseif.prg"
-				},
-				{
-					"match": "(?i)(ELSE)",
-					"name": "keyword.control.conditional.else.prg"
-				},
-				{
-					"match": "(?i)(IF)",
-					"include": "#if-statement"
-				},
-				{
-					"include": "$self"
 				}
 			]
 		},
@@ -114,24 +86,12 @@
 		"string-single": {
 			"name": "string.quoted.single.prg",
 			"begin": "'",
-			"end": "'",
-			"patterns": [
-				{
-					"name": "constant.character.escape.prg",
-					"match": "\\\\."
-				}
-			]
+			"end": "'"
 		},
 		"string-double": {
 			"name": "string.quoted.double.prg",
 			"begin": "\"",
-			"end": "\"",
-			"patterns": [
-				{
-					"name": "constant.character.escape.prg",
-					"match": "\\\\."
-				}
-			]
+			"end": "\""
 		},
 		"comment": {
 			"patterns": [
@@ -360,7 +320,7 @@
 			"name": "keyword.other.prg"
 		},
 		"storage-modifier": {
-			"match": "\\b(?i)(PUBLIC|PROTECTED|PROTECT|HIDDEN|INTERNAL|SEALED|ABSTRACT|STATIC|PARTIAL)\\s+\\b",
+			"match": "\\b(?i)(PUBLIC|PROTECTED|PROTECT|HIDDEN|INTERNAL|SEALED|ABSTRACT|STATIC|PARTIAL|OVERRIDE)\\s+\\b",
 			"name": "storage.modifier.prg"
 		},
 		"namespace": {
