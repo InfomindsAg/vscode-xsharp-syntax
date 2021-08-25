@@ -50,8 +50,12 @@
 		"control-keywords": {
 			"patterns": [
 				{
+					"match": "(?i)\\b((BEGIN|END)\\s*)?(IF|SEQUENCE|CASE|WHILE|DO|FOR|LOOP|SWITCH|TRY|CATCH)\\b",
+					"name": "keyword.control.prg"
+				},
+				{
 					"name": "keyword.control.prg",
-					"match": "\\b(?i)(ASYNC|AWAIT|BEGIN SEQUENCE|RECOVER|BREAK|CANCEL|QUIT|DEFAULT|DO CASE|OTHERWISE|ENDCASE|DO WHILE|DO|EXIT|ENDDO|EXTERNAL|FOR|NEXT|LOOP|NOP|REPEAT|UNTIL|RETURN|RUN|SWITCH|END SWITCH|CASE|WHEN|TEXT|THROW|TRY|CATCH|FINALLY|END TRY|YIELD)\\b"
+					"match": "\\b(?i)(THEN|ELSEIF|ELSE|ASYNC|AWAIT|RECOVER|BREAK|CANCEL|QUIT|DEFAULT|OTHERWISE|EXIT|EXTERNAL|NEXT|NOP|REPEAT|UNTIL|RETURN|RUN|WHEN|TEXT|THROW|FINALLY|YIELD)\\b"
 				},
 				{
 					"match": "(?i)(FOREACH)(.*)\\b(IMPLIED|VAR|AS)\\b(.*)\\b(IN)",
@@ -66,45 +70,6 @@
 							"name": "keyword.control.prg"
 						}
 					}
-				},
-				{
-					"include": "#if-statement"
-				}
-			]
-		},
-		"if-statement": {
-			"name": "if.group",
-			"begin": "(?i)\\b(IF)\\b",
-			"end": "(?i)\\b(END(\\s*IF)?)",
-			"beginCaptures": {
-				"0": {
-					"name": "keyword.control.conditional.if.prg"
-				}
-			},
-			"endCaptures": {
-				"0": {
-					"name": "keyword.control.conditional.endif.prg"
-				}
-			},
-			"patterns": [
-				{
-					"match": "(?i)(THEN)",
-					"name": "keyword.control.conditional.then.prg"
-				},
-				{
-					"match": "(?i)(ELSEIF)",
-					"name": "keyword.control.conditional.elseif.prg"
-				},
-				{
-					"match": "(?i)(ELSE)",
-					"name": "keyword.control.conditional.else.prg"
-				},
-				{
-					"match": "(?i)(IF)",
-					"include": "#if-statement"
-				},
-				{
-					"include": "$self"
 				}
 			]
 		},
