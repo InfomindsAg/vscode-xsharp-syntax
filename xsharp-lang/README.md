@@ -25,3 +25,7 @@ No additional dependencies needed for this extension.
 
 - Removed backslash as escape character
 - Added highlighting for keywords like: strict, clipper, pascal, callback and more.
+
+## 1.0.3
+
+- Highlighting procedures like functions
