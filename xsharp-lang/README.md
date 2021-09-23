@@ -29,3 +29,4 @@ No additional dependencies needed for this extension.
 ## 1.0.3
 
 - Highlighting procedures like functions
+- Supporting interpolated strings

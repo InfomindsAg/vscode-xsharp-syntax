@@ -76,10 +76,38 @@
 		"strings": {
 			"patterns": [
 				{
+					"include": "#interpolated-string-single"
+				},
+				{
+					"include": "#interpolated-string-double"
+				},
+				{
 					"include": "#string-single"
 				},
 				{
 					"include": "#string-double"
+				}
+			]
+		},
+		"interpolated-string-single": {
+			"name": "string.quoted.single.prg",
+			"begin": "c'",
+			"end": "'",
+			"patterns": [
+				{
+					"name": "constant.character.escape.prg",
+					"match": "\\\\."
+				}
+			]
+		},
+		"interpolated-string-double": {
+			"name": "string.quoted.double.prg",
+			"begin": "(i|ie|ei|c)\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.prg",
+					"match": "\\\\."
 				}
 			]
 		},
