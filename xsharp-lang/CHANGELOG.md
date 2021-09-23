@@ -14,3 +14,9 @@ All notable changes to the "xsharp-lang" extension will be documented in this fi
 
 - Remove backslash as escape character
 - Use default highlighting of unhandled keywords
+
+## [1.0.3]
+
+- Highlight procedures like functions
+- Support interpolated strings and escaping characters
+- Fix inherit, implements highlighting

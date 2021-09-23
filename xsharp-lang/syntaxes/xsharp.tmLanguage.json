@@ -76,10 +76,38 @@
 		"strings": {
 			"patterns": [
 				{
+					"include": "#interpolated-string-single"
+				},
+				{
+					"include": "#interpolated-string-double"
+				},
+				{
 					"include": "#string-single"
 				},
 				{
 					"include": "#string-double"
+				}
+			]
+		},
+		"interpolated-string-single": {
+			"name": "string.quoted.single.prg",
+			"begin": "c'",
+			"end": "'",
+			"patterns": [
+				{
+					"name": "constant.character.escape.prg",
+					"match": "\\\\."
+				}
+			]
+		},
+		"interpolated-string-double": {
+			"name": "string.quoted.double.prg",
+			"begin": "(i|ie|ei|c)\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.prg",
+					"match": "\\\\."
 				}
 			]
 		},
@@ -155,7 +183,7 @@
 					"name": "keyword.other.prg"
 				},
 				{
-					"match": "(?i)((BEGIN|END)\\s+)?\\b(CHECKED|UNCHECKED|FIXED|LOCK|NAMESPACE|SCOPE|UNSAFE|CLASS|ENUM|INTERFACE|PROCEDURE|STRUCTURE|UNION|VOSTRUCT)\\b",
+					"match": "(?i)((BEGIN|END)\\s+)?\\b(CHECKED|UNCHECKED|FIXED|LOCK|NAMESPACE|SCOPE|UNSAFE|CLASS|ENUM|INTERFACE|STRUCTURE|UNION|VOSTRUCT)\\b",
 					"name": "keyword.other.prg"
 				},
 				{
@@ -204,7 +232,7 @@
 		"function": {
 			"patterns": [
 				{
-					"match": "(?i)(FUNC|FUNCTION|METHOD)(\\s+)([_a-zA-Z_0-9]+)",
+					"match": "(?i)(FUNC|FUNCTION|METHOD|PROC|PROCEDURE)(\\s+)([_a-zA-Z_0-9]+)",
 					"name": "meta.function.prg",
 					"captures": {
 						"1": {
@@ -217,7 +245,15 @@
 				},
 				{
 					"match": "(?i)\\b(ENDFUNC|END\\s+FUNCTION)\\b",
-					"name": "storage.type.function.prg"
+					"name": "keyword.other.prg"
+				},
+				{
+					"match": "(?i)\\b(END\\s+METHOD)\\b",
+					"name": "keyword.other.prg"
+				},
+				{
+					"match": "(?i)\\b(ENDPROC|END\\s+PROCEDURE)\\b",
+					"name": "keyword.other.prg"
 				}
 			]
 		},
@@ -260,58 +296,15 @@
 				}
 			]
 		},
-		"comma-seperator": {
-			"patterns": [
-				{
-					"match": "(\\S+)\\s*,\\s*(.*)",
-					"captures": {
-						"1": {
-							"name": "entity.name.type.prg"
-						},
-						"2": {
-							"patterns": [
-								{
-									"include": "#comma-seperator"
-								}
-							]
-						}
-					}
-				},
-				{
-					"match": "\\b(\\S+)\\b",
-					"name": "entity.name.type.prg"
-				}
-			]
-		},
 		"class-enum-interface": {
 			"patterns": [
 				{
-					"match": "(?i)(?<=(CLASS|ENUM|INTERFACE|PROCEDURE|STRUCTURE))\\s+\\b\\S+\\b",
+					"match": "(?i)(?<=(CLASS|ENUM|INTERFACE|STRUCTURE))\\s+\\b\\S+\\b",
 					"name": "entity.name.type.prg"
 				},
 				{
-					"match": "(?i)\\b(ENDPROC)\\b",
-					"name": "keyword.other.prg"
-				},
-				{
-					"match": "(?i)(INHERIT)\\s+(\\S+)",
-					"captures": {
-						"2": {
-							"name": "entity.name.type.prg"
-						}
-					}
-				},
-				{
-					"match": "(?i)(IMPLEMENTS)\\s+(.*)",
-					"captures": {
-						"2": {
-							"patterns": [
-								{
-									"include": "#comma-seperator"
-								}
-							]
-						}
-					}
+					"match": "(?i)(?<=((CLASS|ENUM|INTERFACE|STRUCTURE).*(IMPLEMENTS|INHERIT|,)))\\s*(\\w+)\\s*",
+					"name": "entity.name.type.prg"
 				}
 			]
 		},
