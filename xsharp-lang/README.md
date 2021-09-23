@@ -30,3 +30,4 @@ No additional dependencies needed for this extension.
 
 - Highlighting procedures like functions
 - Supporting interpolated strings
+- Bugfixes

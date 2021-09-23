@@ -296,29 +296,6 @@
 				}
 			]
 		},
-		"comma-separator": {
-			"patterns": [
-				{
-					"match": "(\\S+)\\s*,\\s*(.*)",
-					"captures": {
-						"1": {
-							"name": "entity.name.type.prg"
-						},
-						"2": {
-							"patterns": [
-								{
-									"include": "#comma-separator"
-								}
-							]
-						}
-					}
-				},
-				{
-					"match": "\\b(\\S+)\\b",
-					"name": "entity.name.type.prg"
-				}
-			]
-		},
 		"class-enum-interface": {
 			"patterns": [
 				{
@@ -326,24 +303,8 @@
 					"name": "entity.name.type.prg"
 				},
 				{
-					"match": "(?i)(INHERIT)\\s+(\\S+)",
-					"captures": {
-						"2": {
-							"name": "entity.name.type.prg"
-						}
-					}
-				},
-				{
-					"match": "(?i)(IMPLEMENTS)\\s+(.*)",
-					"captures": {
-						"2": {
-							"patterns": [
-								{
-									"include": "#comma-separator"
-								}
-							]
-						}
-					}
+					"match": "(?i)(?<=(IMPLEMENTS|INHERIT|,))\\s*(\\w+)\\s*",
+					"name": "entity.name.type.prg"
 				}
 			]
 		},
