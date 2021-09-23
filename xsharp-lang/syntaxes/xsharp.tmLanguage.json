@@ -303,7 +303,7 @@
 					"name": "entity.name.type.prg"
 				},
 				{
-					"match": "(?i)(?<=(IMPLEMENTS|INHERIT|,))\\s*(\\w+)\\s*",
+					"match": "(?i)(?<=((CLASS|ENUM|INTERFACE|STRUCTURE).*(IMPLEMENTS|INHERIT|,)))\\s*(\\w+)\\s*",
 					"name": "entity.name.type.prg"
 				}
 			]
