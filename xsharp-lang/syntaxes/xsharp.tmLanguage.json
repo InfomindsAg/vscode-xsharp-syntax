@@ -102,7 +102,7 @@
 		},
 		"interpolated-string-double": {
 			"name": "string.quoted.double.prg",
-			"begin": "(i|ie|ei|c)\"",
+			"begin": "(i|e|ie|ei|c)\"",
 			"end": "\"",
 			"patterns": [
 				{
