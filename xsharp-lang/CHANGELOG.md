@@ -20,3 +20,7 @@ All notable changes to the "xsharp-lang" extension will be documented in this fi
 - Highlight procedures like functions
 - Support interpolated strings and escaping characters
 - Fix inherit, implements highlighting
+
+## [1.0.4]
+
+- Fixed issue with extended string literal (thanks to joshua-azyra)
