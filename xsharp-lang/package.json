@@ -2,7 +2,7 @@
   "name": "xsharp-lang",
   "displayName": "X# Lang",
   "description": "Syntax highlighting for X# lang",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "publisher": "InfomindsAG",
   "license": "MIT",
   "repository": {
