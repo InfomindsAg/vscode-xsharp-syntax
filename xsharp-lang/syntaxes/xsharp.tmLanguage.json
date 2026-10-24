@@ -6,16 +6,19 @@
 	],
 	"patterns": [
 		{
-			"include": "#namespace"
+			"include": "#comment"
+		},
+		{
+			"include": "#preprocessor"
 		},
 		{
 			"include": "#strings"
 		},
 		{
-			"include": "#comment"
+			"include": "#literal"
 		},
 		{
-			"include": "#literal"
+			"include": "#member"
 		},
 		{
 			"include": "#entity"
@@ -43,99 +46,161 @@
 		}
 	],
 	"repository": {
-		"keywords": {
-			"match": "\\b(?i)(ABSTRACT|ACCESS|ADD|ALIGN|ANSI|AS|ASCENDING|ASPEN|ASSEMBLY|ASSIGN|ASYNC|AUTO|AWAIT|BEGIN|BREAK|BY|CALLBACK|CASE|CATCH|CCALL|CCALLNATIVE|CHECKED|CLIPPER|CONST|CONSTRUCTOR|DECLARE|DEFAULT|DEFINE|DESCENDING|DESTRUCTOR|DIM|DLLEXPORT|DO|DOWNTO|ELSE|ELSEIF|END|ENDCASE|ENDDO|EN|ENDIF|EQUALS|EVENT|EXIT|EXPLICIT|EXPORT|EXTERN|FASTCALL|FIELD|FINALLY|FIXED|FOR|FOREACH|FROM|FUNC|FUNCTION|GET|GLOBAL|GROUP|HIDDEN|IF|IIF|IMPLEMENTS|IMPLICIT|IMPLIED|IN|INHERIT|INITONLY|INSTANCE|INTO|INTERNAL|IS|JOIN|LET|LOCAL|LOCK|LOOP|MEMBER|METHOD|MODULE|NAMEOF|NAMESPACE|NEW|NEXT|NIL|NOP|OFF|ON|OPERATOR|OPTIONS|ORDERBY|OTHERWISE|OVERRIDE|OUT|PARAMETERS|PARAMS|PARTIAL|PASCAL|PCALL|PCALLNATIVE|PCOUNT|POP|PRIVATE|PROC|PROCEDURE|PROPERTY|PROTECTED|PROTECT|PUBLIC|PUSH|RECOVER|REF|REMOVE|REPEAT|RETURN|SCOPE|SEALED|SELECT|SELF|SEQUENCE|SET|SHORTINT|SIZEOF|STATIC|STEP|STRICT|STRUCT|SUPER|SWITCH|THISCALL|TO|THROW|TRY|TYPEOF|UNCHECKED|UNICODE|UNSAFE|UNTIL|UPTO|USING|VALUE|VIRTUAL|VOLATILE|WARNINGS|_WINCALL|WHEN|WHERE|WHILE|YIELD|__ARGLIST|_AND|_CAST|_CODEBLOCK|_DLL|_FIELD|_GETFPARAM|_GETMPARAM|_INIT1|_INIT2|_INIT3|_NOT|_OR|_SIZEOF|_TYPEOF|_XOR|\\.AND\\.|\\.NOT\\.|\\.OR\\.|\\.XOR\\.|\\.\\.\\.|#command|#define|#else|#endif|#endregion|#ifdef|#ifndef|#include|#line|#pragma|#region|#translate|#undef|#using|#warning|#xcommand|#xtranslate|MEMVAR|VAR|CLASS|DELEGATE|ENUM|INTERFACE|STRUCTURE|UNION|VOSTRUCT)\\b",
-			"name": "keyword.other.prg"
-		},
-		"control-keywords": {
+		"comment": {
 			"patterns": [
 				{
-					"match": "(?i)\\b((BEGIN|END)\\s*)?(IF|SEQUENCE|CASE|WHILE|DO|FOR|LOOP|SWITCH|TRY|CATCH)\\b",
-					"name": "keyword.control.prg"
+					"match": "///.*$",
+					"name": "comment.block.documentation.prg"
 				},
 				{
-					"name": "keyword.control.prg",
-					"match": "\\b(?i)(THEN|ELSEIF|ELSE|ASYNC|AWAIT|RECOVER|BREAK|CANCEL|QUIT|DEFAULT|OTHERWISE|EXIT|EXTERNAL|NEXT|NOP|REPEAT|UNTIL|RETURN|RUN|WHEN|TEXT|THROW|FINALLY|YIELD)\\b"
+					"match": "//.*$",
+					"name": "comment.line.double-slash.prg"
 				},
 				{
-					"match": "(?i)(FOREACH)(.*)\\b(IMPLIED|VAR|AS)\\b(.*)\\b(IN)",
-					"captures": {
-						"1": {
-							"name": "keyword.control.prg"
-						},
-						"3": {
-							"name": "keyword.other.prg"
-						},
-						"5": {
-							"name": "keyword.control.prg"
-						}
-					}
+					"match": "&&.*$",
+					"name": "comment.line.double-ampersand.prg"
+				},
+				{
+					"match": "^\\s*\\*.*$",
+					"name": "comment.line.asterisk.prg"
+				},
+				{
+					"begin": "/\\*",
+					"end": "\\*/",
+					"name": "comment.block.prg"
+				}
+			]
+		},
+		"preprocessor": {
+			"begin": "(?i)^\\s*(#(?:command|xcommand|ycommand|translate|xtranslate|ytranslate|define|undef|ifdef|ifndef|if|else|endif|include|region|endregion|pragma|warning|error|line|stdout|text|endtext|nullable|using))\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.directive.prg"
+				}
+			},
+			"end": "$",
+			"name": "meta.preprocessor.prg",
+			"patterns": [
+				{
+					"include": "#comment"
+				},
+				{
+					"include": "#strings"
+				},
+				{
+					"include": "#numeric-literal"
 				}
 			]
 		},
 		"strings": {
 			"patterns": [
 				{
-					"include": "#interpolated-string-single"
+					"include": "#string-interpolated-escaped"
 				},
 				{
-					"include": "#interpolated-string-double"
+					"include": "#string-escaped"
+				},
+				{
+					"include": "#string-interpolated"
+				},
+				{
+					"include": "#char-single"
+				},
+				{
+					"include": "#char-double"
+				},
+				{
+					"include": "#string-double"
 				},
 				{
 					"include": "#string-single"
 				},
 				{
-					"include": "#string-double"
+					"include": "#string-bracket"
 				}
 			]
 		},
-		"interpolated-string-single": {
-			"name": "string.quoted.single.prg",
-			"begin": "c'",
-			"end": "'",
-			"patterns": [
-				{
-					"name": "constant.character.escape.prg",
-					"match": "\\\\."
-				}
-			]
+		"string-escape": {
+			"match": "\\\\.",
+			"name": "constant.character.escape.prg"
 		},
-		"interpolated-string-double": {
+		"string-interpolation": {
+			"match": "\\{[^}]*\\}",
+			"name": "meta.interpolation.prg"
+		},
+		"string-interpolated-escaped": {
 			"name": "string.quoted.double.prg",
-			"begin": "(i|e|ie|ei|c)\"",
-			"end": "\"",
+			"begin": "(?i)\\b(?:ie|ei)\"",
+			"end": "\"|$",
 			"patterns": [
 				{
-					"name": "constant.character.escape.prg",
-					"match": "\\\\."
+					"include": "#string-escape"
+				},
+				{
+					"include": "#string-interpolation"
 				}
 			]
 		},
-		"string-single": {
+		"string-escaped": {
+			"name": "string.quoted.double.prg",
+			"begin": "(?i)\\be\"",
+			"end": "\"|$",
+			"patterns": [
+				{
+					"include": "#string-escape"
+				}
+			]
+		},
+		"string-interpolated": {
+			"name": "string.quoted.double.prg",
+			"begin": "(?i)\\bi\"",
+			"end": "\"|$",
+			"patterns": [
+				{
+					"include": "#string-interpolation"
+				}
+			]
+		},
+		"char-single": {
 			"name": "string.quoted.single.prg",
-			"begin": "'",
-			"end": "'"
+			"begin": "(?i)\\bc'",
+			"end": "'|$",
+			"patterns": [
+				{
+					"include": "#string-escape"
+				}
+			]
+		},
+		"char-double": {
+			"name": "string.quoted.double.prg",
+			"begin": "(?i)\\bc\"",
+			"end": "\"|$",
+			"patterns": [
+				{
+					"include": "#string-escape"
+				}
+			]
 		},
 		"string-double": {
 			"name": "string.quoted.double.prg",
 			"begin": "\"",
-			"end": "\""
+			"end": "\"|$"
 		},
-		"comment": {
-			"patterns": [
-				{
-					"begin": "/\\*",
-					"end": "\\*/",
-					"name": "comment.block.prg"
-				},
-				{
-					"match": "(//).*$\\n?",
-					"name": "comment.line.double-slash.prg"
-				}
-			]
+		"string-single": {
+			"name": "string.quoted.single.prg",
+			"begin": "'",
+			"end": "'|$"
+		},
+		"string-bracket": {
+			"name": "string.quoted.other.bracket.prg",
+			"begin": "(?:(?<=[=(,{+])|(?i:(?<=\\breturn))|(?i:(?<=\\bget)))\\s*(\\[)",
+			"end": "\\]|$"
 		},
 		"literal": {
 			"patterns": [
+				{
+					"include": "#numeric-literal"
+				},
 				{
 					"include": "#boolean-literal"
 				},
@@ -143,83 +208,115 @@
 					"include": "#null-literal"
 				},
 				{
-					"include": "#numeric-literal"
+					"include": "#symbol-literal"
 				},
 				{
-					"include": "#symbol-literal"
+					"include": "#macro-literal"
 				}
 			]
 		},
 		"numeric-literal": {
 			"patterns": [
 				{
-					"include": "#integer-literal"
+					"match": "(?i)\\{\\^\\d{4}-\\d{1,2}-\\d{1,2}(?:\\s+\\d{1,2}(?::\\d{1,2}){0,2}(?:\\s*[ap]m)?)?\\s*\\}",
+					"name": "constant.numeric.date.prg"
 				},
 				{
-					"include": "#float-literal"
+					"match": "\\b\\d{4}\\.\\d{1,2}\\.\\d{1,2}\\b",
+					"name": "constant.numeric.date.prg"
+				},
+				{
+					"match": "(?i)\\b0x[0-9a-f_]+[ul]?\\b",
+					"name": "constant.numeric.hex.prg"
+				},
+				{
+					"match": "(?i)\\b0b[01_]+u?\\b",
+					"name": "constant.numeric.binary.prg"
+				},
+				{
+					"match": "(?i)\\b0h[0-9a-f]+\\b",
+					"name": "constant.numeric.binary.prg"
+				},
+				{
+					"match": "(?i)\\b\\d[\\d_]*(?:\\.\\d[\\d_]*)?(?:e[+-]?\\d+)?[ulmsd]?\\b",
+					"name": "constant.numeric.decimal.prg"
+				},
+				{
+					"match": "(?i)(?<![\\w.])\\.\\d[\\d_]*(?:e[+-]?\\d+)?[msd]?\\b",
+					"name": "constant.numeric.decimal.prg"
+				},
+				{
+					"match": "(?<![\\w$])\\$\\d[\\d_]*(?:\\.\\d+)?\\b",
+					"name": "constant.numeric.currency.prg"
 				}
 			]
 		},
-		"integer-literal": {
-			"match": "(?i)\\b([0-9]+)(L|U)\\b",
-			"name": "constant.language.int-literal.prg"
-		},
-		"float-literal": {
+		"boolean-literal": {
 			"patterns": [
 				{
-					"match": "(?i)\\b(([0-9]*[.])?[0-9]+)(S|D|M)\\b",
-					"name": "constant.language.float-literal.prg"
+					"match": "(?i)(?<![\\w.])\\.(?:t|f|y|n)\\.",
+					"name": "constant.language.boolean.prg"
 				},
 				{
-					"match": "\\b\\$([0-9]*[.])?[0-9]+\\b",
-					"name": "constant.language.float-literal.prg"
+					"match": "(?i)(?<![:.])\\b(?:true|false)\\b",
+					"name": "constant.language.boolean.prg"
 				}
 			]
 		},
-		"block": {
+		"null-literal": {
 			"patterns": [
 				{
-					"match": "(?i)(BEGIN|END)\\s+\\b(USING)\\b",
-					"name": "keyword.other.prg"
+					"match": "(?i)(?<![:.])\\b(?:NIL|NULL|NULL_ARRAY|NULL_CODEBLOCK|NULL_DATE|NULL_OBJECT|NULL_PSZ|NULL_PTR|NULL_STRING|NULL_SYMBOL)\\b",
+					"name": "constant.language.null.prg"
 				},
 				{
-					"match": "(?i)((BEGIN|END)\\s+)?\\b(CHECKED|UNCHECKED|FIXED|LOCK|NAMESPACE|SCOPE|UNSAFE|CLASS|ENUM|INTERFACE|STRUCTURE|UNION|VOSTRUCT)\\b",
-					"name": "keyword.other.prg"
-				},
-				{
-					"include": "#using-directive"
+					"match": "(?i)(?<![\\w.])\\.NULL\\.",
+					"name": "constant.language.null.prg"
 				}
 			]
 		},
-		"using-directive": {
-			"match": "(?i)\\b(USING)(\\s+)(\\S+)\\b",
+		"symbol-literal": {
+			"match": "#[A-Za-z_]\\w*",
+			"name": "constant.other.symbol.prg"
+		},
+		"macro-literal": {
+			"match": "(?i)\\b__[a-z0-9_]+__\\b",
+			"name": "constant.language.macro.prg"
+		},
+		"member": {
+			"match": "(?<=[\\w)\\]}])(?:(:)(?![:=])\\s*|(\\.)(?!(?i:and|or|not|xor|t|f|y|n|null)\\.))([A-Za-z_]\\w*)",
 			"captures": {
-				"1": {
-					"name": "keyword.other.using.prg"
-				},
 				"3": {
-					"name": "entity.name.type.namespace.prg"
+					"name": "variable.other.member.prg"
 				}
 			}
 		},
 		"entity": {
 			"patterns": [
 				{
-					"match": "(?i)\\b(\\_DLL|ACCESS|ASSIGN|DECLARE|EVENT|OPERATOR|DEFINE|DELEGATE|DLLEXPORT|EXPORT|LOCAL|GLOBAL|FIELD|MEMVAR)\\b",
-					"name": "keyword.other.prg"
-				},
-				{
-					"match": "(?i)\\b(CONSTRUCTOR|DESTRUCTOR)\\b",
-					"name": "entity.name.function.prg"
-				},
-				{
 					"include": "#function"
 				},
 				{
-					"include": "#property"
+					"match": "(?i)(?<![:.])\\b(?:CONSTRUCTOR|DESTRUCTOR)\\b",
+					"name": "storage.type.function.prg"
+				},
+				{
+					"include": "#define-global"
+				},
+				{
+					"include": "#delegate-struct"
+				},
+				{
+					"include": "#event"
 				},
 				{
 					"include": "#class-enum-interface"
+				},
+				{
+					"include": "#namespace"
+				},
+				{
+					"include": "#property"
 				},
 				{
 					"include": "#union-vostruct"
@@ -232,147 +329,220 @@
 		"function": {
 			"patterns": [
 				{
-					"match": "(?i)(FUNC|FUNCTION|METHOD|PROC|PROCEDURE)(\\s+)([_a-zA-Z_0-9]+)",
+					"match": "(?i)(?<![:.])\\b(FUNC|FUNCTION|METHOD|PROC|PROCEDURE|ACCESS|ASSIGN)\\s+([A-Za-z_]\\w*)",
 					"name": "meta.function.prg",
 					"captures": {
 						"1": {
 							"name": "storage.type.function.prg"
 						},
-						"3": {
+						"2": {
 							"name": "entity.name.function.prg"
 						}
 					}
 				},
 				{
-					"match": "(?i)\\b(ENDFUNC|END\\s+FUNCTION)\\b",
-					"name": "keyword.other.prg"
-				},
-				{
-					"match": "(?i)\\b(END\\s+METHOD)\\b",
-					"name": "keyword.other.prg"
-				},
-				{
-					"match": "(?i)\\b(ENDPROC|END\\s+PROCEDURE)\\b",
+					"match": "(?i)\\b(?:ENDFUNC|END\\s+FUNCTION|END\\s+METHOD|ENDPROC|END\\s+PROCEDURE)\\b",
 					"name": "keyword.other.prg"
 				}
 			]
 		},
-		"property": {
-			"begin": "(?i)(PROPERTY)\\s+(\\b\\S+\\b)",
-			"end": "(?i)(END\\s+PROPERTY)",
-			"beginCaptures": {
+		"define-global": {
+			"match": "(?i)(?<![:.])\\b(DEFINE|GLOBAL)\\s+(?:(CONST)\\s+)?([A-Za-z_]\\w*)",
+			"captures": {
 				"1": {
-					"name": "keyword.other.property.prg"
+					"name": "keyword.other.prg"
+				},
+				"2": {
+					"name": "storage.modifier.prg"
+				},
+				"3": {
+					"name": "variable.other.constant.prg"
+				}
+			}
+		},
+		"delegate-struct": {
+			"match": "(?i)(?<![:.])\\b(DELEGATE|VOSTRUCT|UNION)\\s+([A-Za-z_]\\w*)",
+			"captures": {
+				"1": {
+					"name": "keyword.other.prg"
 				},
 				"2": {
 					"name": "entity.name.type.prg"
 				}
-			},
-			"endCaptures": {
-				"1": {
-					"name": "keyword.other.end-property.prg"
-				}
-			},
-			"patterns": [
-				{
-					"include": "#property-getter-setter"
-				},
-				{
-					"include": "$self"
-				}
-			]
+			}
 		},
-		"property-getter-setter": {
-			"begin": "(?i)\\b(GET|SET|INIT)\\b",
-			"end": "(?i)(END\\s+(GET|SET|INIT))",
+		"event": {
+			"match": "(?i)(?<![:.])\\b(EVENT)\\s+([A-Za-z_]\\w*)",
+			"captures": {
+				"1": {
+					"name": "keyword.other.prg"
+				},
+				"2": {
+					"name": "entity.name.function.prg"
+				}
+			}
+		},
+		"class-enum-interface": {
+			"match": "(?i)(?<![:.])\\b(CLASS|INTERFACE|STRUCTURE|STRUCT|ENUM)\\s+([A-Za-z_][\\w.]*)(?:\\s+(INHERIT|FROM)\\s+([\\w.]+))?(?:\\s+(IMPLEMENTS)\\s+([\\w., ]+))?",
+			"captures": {
+				"1": {
+					"name": "keyword.other.prg"
+				},
+				"2": {
+					"name": "entity.name.type.prg"
+				},
+				"3": {
+					"name": "keyword.other.prg"
+				},
+				"4": {
+					"name": "entity.name.type.prg"
+				},
+				"5": {
+					"name": "keyword.other.prg"
+				},
+				"6": {
+					"name": "entity.name.type.prg"
+				}
+			}
+		},
+		"namespace": {
+			"match": "(?i)\\b(BEGIN\\s+NAMESPACE)\\s+([\\w.]+)",
+			"captures": {
+				"1": {
+					"name": "keyword.other.prg"
+				},
+				"2": {
+					"name": "entity.name.type.namespace.prg"
+				}
+			}
+		},
+		"property": {
+			"match": "(?i)(?<![:.])\\b(PROPERTY)\\s+([A-Za-z_]\\w*)",
 			"captures": {
 				"1": {
 					"name": "keyword.other.property.prg"
-				}
-			},
-			"patterns": [
-				{
-					"include": "$self"
-				}
-			]
-		},
-		"class-enum-interface": {
-			"patterns": [
-				{
-					"match": "(?i)(?<=(CLASS|ENUM|INTERFACE|STRUCTURE))\\s+\\b\\S+\\b",
-					"name": "entity.name.type.prg"
 				},
-				{
-					"match": "(?i)(?<=((CLASS|ENUM|INTERFACE|STRUCTURE).*(IMPLEMENTS|INHERIT|,)))\\s*(\\w+)\\s*",
-					"name": "entity.name.type.prg"
+				"2": {
+					"name": "entity.name.function.prg"
 				}
-			]
+			}
 		},
 		"union-vostruct": {
-			"match": "(?i)\\b(MEMBER(\\s+DIM)?)\\b",
+			"match": "(?i)(?<![:.])\\b(MEMBER(\\s+DIM)?)\\b",
 			"name": "keyword.other.prg"
 		},
 		"storage-modifier": {
-			"match": "\\b(?i)(PUBLIC|PROTECTED|PROTECT|HIDDEN|INTERNAL|SEALED|ABSTRACT|STATIC|PARTIAL|OVERRIDE)\\s+\\b",
+			"match": "(?i)(?<![:.])\\b(PUBLIC|PROTECTED|PROTECT|HIDDEN|INTERNAL|SEALED|ABSTRACT|STATIC|PARTIAL|OVERRIDE|EXPORT|INSTANCE|PRIVATE|VIRTUAL|CONST|INITONLY)\\b",
 			"name": "storage.modifier.prg"
 		},
-		"namespace": {
-			"match": "(?i)(?<=BEGIN\\s+NAMESPACE\\s+)(\\b\\S+\\b)",
-			"name": "entity.name.type.prg"
+		"type": {
+			"match": "(?i)(?<![:.])\\b(ARRAY|BINARY|BYTE|CHAR|CODEBLOCK|_CODEBLOCK|CURRENCY|DATE|DATETIME|DECIMAL|DWORD|DYNAMIC|FLOAT|INT|INT64|LOGIC|LONG|LONGINT|NINT|NUINT|OBJECT|PSZ|PTR|REAL4|REAL8|SHORT|SHORTINT|STRING|SYMBOL|UINT64|USUAL|VOID|WORD)\\b",
+			"name": "storage.type.prg"
 		},
 		"expression": {
 			"patterns": [
 				{
-					"include": "#expr-boolean"
+					"match": "(?i)\\.(?:AND|OR|NOT|XOR)\\.",
+					"name": "keyword.operator.logical.prg"
+				},
+				{
+					"match": "!(?!=)",
+					"name": "keyword.operator.logical.prg"
+				},
+				{
+					"match": "(?i)(?<![:.])\\b(?:_AND|_OR|_XOR|_NOT)\\b",
+					"name": "keyword.operator.bitwise.prg"
 				}
 			]
 		},
-		"boolean-literal": {
-			"match": "\\b(\\s*)(?i)(FALSE|\\.F\\.|\\.N\\.|TRUE|\\.T\\.|\\.Y\\.)\\b",
-			"name": "constant.language.boolean.prg"
+		"variable": {
+			"match": "(?i)(?<![:.])\\b(SELF|SUPER|THIS)\\b",
+			"name": "variable.language.prg"
 		},
-		"null-literal": {
-			"match": "\\b(\\s*)(?i)(NULL|NULL_ARRAY|NULL_CODEBLOCK|NULL_DATE|NULL_OBJECT|NULL_PSZ|NULL_PTR|NULL_STRING|NULL_SYMBOL|\\.NULL\\.)\\b",
-			"name": "constant.language.null.prg"
-		},
-		"symbol-literal": {
-			"match": "#[_a-zA-Z_0-9]+",
-			"name": "constant.language.symbol.prg"
-		},
-		"type": {
-			"name": "keyword.type.prg",
-			"match": "(?i)\\b(VAR|BYTE|CHAR|DWORD|DECIMAL|DYNAMIC|INT|INT64|LOGIC|LONGINT|OBJECT|PTR|REAL4|REAL8|SBYTE|SHORT|STRING|UINT64|VOID|WORD|ARRAY|BINARY|CODEBLOCK|CURRENCY|DATE|FLOAT|PSZ|SYMBOL|USUAL)\\b"
-		},
-		"expr-boolean": {
-			"match": "(?i)(\\.AND\\.|\\.OR\\.|\\.NOT\\.|\\!)",
-			"name": "keyword.operator.logical.prg"
+		"control-keywords": {
+			"patterns": [
+				{
+					"match": "(?i)(?<![:.])\\b(RECOVER)\\s+(USING)\\s+([A-Za-z_]\\w*)",
+					"captures": {
+						"1": {
+							"name": "keyword.control.prg"
+						},
+						"2": {
+							"name": "keyword.other.prg"
+						},
+						"3": {
+							"name": "variable.other.prg"
+						}
+					}
+				},
+				{
+					"match": "(?i)(?<![:.])\\b((BEGIN|END)\\s*)?(IF|SEQUENCE|CASE|WHILE|DO|FOR|LOOP|SWITCH|TRY|CATCH|WITH)\\b",
+					"name": "keyword.control.prg"
+				},
+				{
+					"match": "(?i)(?<![:.])\\b(ELSEIF|ELSE|ASYNC|AWAIT|RECOVER|BREAK|DEFAULT|OTHERWISE|EXIT|FOREACH|NEXT|NOP|REPEAT|UNTIL|RETURN|WHEN|THROW|FINALLY|YIELD)\\b",
+					"name": "keyword.control.prg"
+				}
+			]
 		},
 		"as": {
 			"patterns": [
 				{
-					"match": "(?i)\\s+(AS|REF|OUT|IN|IS)\\s+([_a-zA-Z_0-9]+)",
+					"match": "(?i)(?<![:.])\\b(AS|REF|OUT|IS)\\s+(ARRAY|BINARY|BYTE|CHAR|CODEBLOCK|_CODEBLOCK|CURRENCY|DATE|DATETIME|DECIMAL|DWORD|DYNAMIC|FLOAT|INT|INT64|LOGIC|LONG|LONGINT|NINT|NUINT|OBJECT|PSZ|PTR|REAL4|REAL8|SHORT|SHORTINT|STRING|SYMBOL|UINT64|USUAL|VOID|WORD)\\b",
 					"captures": {
 						"1": {
 							"name": "keyword.other.prg"
 						},
 						"2": {
-							"patterns": [
-								{
-									"include": "#type"
-								},
-								{
-									"match": ".*",
-									"name": "entity.name.type.prg"
-								}
-							]
+							"name": "storage.type.prg"
+						}
+					}
+				},
+				{
+					"match": "(?i)(?<![:.])\\b(AS|REF|OUT|IS)\\s+([A-Za-z_][\\w.]*)",
+					"captures": {
+						"1": {
+							"name": "keyword.other.prg"
+						},
+						"2": {
+							"name": "entity.name.type.prg"
 						}
 					}
 				}
 			]
 		},
-		"variable": {
-			"match": "(?i)\\b(SELF|SUPER)\\b",
-			"name": "variable.language.prg"
+		"block": {
+			"patterns": [
+				{
+					"match": "(?i)\\b(BEGIN|END)\\s+(USING)\\b",
+					"name": "keyword.other.prg"
+				},
+				{
+					"match": "(?i)(?<![:.])\\b((BEGIN|END)\\s+)?(CHECKED|UNCHECKED|FIXED|LOCK|NAMESPACE|SCOPE|UNSAFE|CLASS|ENUM|INTERFACE|STRUCTURE|STRUCT|UNION|VOSTRUCT|PROPERTY|GET|SET|INIT|EVENT|ADD|REMOVE|OPERATOR|CONSTRUCTOR|DESTRUCTOR|DELEGATE)\\b",
+					"name": "keyword.other.prg"
+				},
+				{
+					"include": "#using-directive"
+				}
+			]
+		},
+		"using-directive": {
+			"match": "(?i)^\\s*(USING)\\s+(?:(STATIC)\\s+)?([\\w.]+)",
+			"captures": {
+				"1": {
+					"name": "keyword.other.using.prg"
+				},
+				"2": {
+					"name": "storage.modifier.prg"
+				},
+				"3": {
+					"name": "entity.name.type.namespace.prg"
+				}
+			}
+		},
+		"keywords": {
+			"match": "(?i)(?<![:.])\\b(ACCESS|ADD|ALIGN|AS|ASCENDING|ASPEN|ASSIGN|ASTYPE|AUTO|BEGIN|BY|CALLBACK|CATCH|CHECKED|CLASS|CLIPPER|CONST|CONSTRUCTOR|DECLARE|DEFINE|DELEGATE|DESCENDING|DESTRUCTOR|DIM|DLLEXPORT|DOWNTO|END|ENDCASE|ENDDO|ENDIF|ENUM|EQUALS|EVENT|EXPLICIT|EXTERN|FASTCALL|FIELD|FIXED|FROM|FUNC|FUNCTION|GET|GLOBAL|GROUP|IIF|IMPLEMENTS|IMPLICIT|IMPLIED|IN|INHERIT|INIT|INIT1|INIT2|INIT3|INTERFACE|INTO|IS|JOIN|LET|LOCAL|LOCK|MEMBER|MEMVAR|METHOD|NAMEOF|NAMESPACE|NEW|OF|ON|OPERATOR|ORDERBY|OUT|PARAMETERS|PARAMS|PASCAL|PROC|PROCEDURE|PROPERTY|RECORD|REF|REMOVE|SCOPE|SELECT|SET|SIZEOF|STACKALLOC|STEP|STRICT|STRUCT|STRUCTURE|THISCALL|TO|TUPLE|TYPEOF|UNCHECKED|UNION|UNSAFE|UPTO|USING|VALUE|VAR|VOLATILE|VOSTRUCT|WHERE|_CAST|_DLL|_FIELD|_INIT1|_INIT2|_INIT3|_MEMVAR|_SIZEOF|_TYPEOF|_WINCALL|__ARGLIST|__CASTCLASS)\\b",
+			"name": "keyword.other.prg"
 		}
 	},
 	"scopeName": "source.prg"

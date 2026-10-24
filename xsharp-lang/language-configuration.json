@@ -17,7 +17,7 @@
         ["[", "]"],
         ["(", ")"],
         ["\"", "\""],
-        ["'", "'"]
+        { "open": "'", "close": "'", "notIn": ["string", "comment"] }
     ],
     // symbols that can be used to surround a selection
     "surroundingPairs": [
@@ -26,5 +26,25 @@
         ["(", ")"],
         ["\"", "\""],
         ["'", "'"]
-    ]
+    ],
+    // X# identifiers (also @@verbatim identifiers) and numbers
+    "wordPattern": "(-?\\d*\\.\\d\\w*)|((@@)?[A-Za-z_]\\w*)",
+    // fold #region ... #endregion
+    "folding": {
+        "markers": {
+            "start": "^\\s*#[Rr][Ee][Gg][Ii][Oo][Nn]\\b",
+            "end": "^\\s*#[Ee][Nn][Dd][Rr][Ee][Gg][Ii][Oo][Nn]\\b"
+        }
+    },
+    // indent after the start of an X# block, outdent at its end
+    "indentationRules": {
+        "increaseIndentPattern": {
+            "pattern": "^\\s*(IF|ELSE|ELSEIF|DO\\s+(WHILE|CASE)|WHILE|CASE|OTHERWISE|FOR|FOREACH|REPEAT|BEGIN\\s+(SEQUENCE|NAMESPACE|USING|LOCK|SCOPE|FIXED|UNSAFE|CHECKED|UNCHECKED)|RECOVER|TRY|CATCH|FINALLY|SWITCH|WITH|((PUBLIC|PRIVATE|PROTECTED|PROTECT|HIDDEN|INTERNAL|EXPORT|STATIC|PARTIAL|SEALED|ABSTRACT|VIRTUAL|OVERRIDE|NEW)\\s+)*(CLASS|INTERFACE|STRUCTURE|STRUCT|ENUM|FUNCTION|FUNC|PROCEDURE|PROC|METHOD|ACCESS|ASSIGN|CONSTRUCTOR|DESTRUCTOR|OPERATOR))\\b(?!.*\\b(END\\w*|NEXT|UNTIL)\\b)",
+            "flags": "i"
+        },
+        "decreaseIndentPattern": {
+            "pattern": "^\\s*(END\\w*|ELSE|ELSEIF|CASE|OTHERWISE|NEXT|UNTIL|RECOVER|CATCH|FINALLY)\\b",
+            "flags": "i"
+        }
+    }
 }
